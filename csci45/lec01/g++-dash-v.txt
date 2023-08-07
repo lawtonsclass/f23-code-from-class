@@ -1,0 +1,41 @@
+Using built-in specs.
+COLLECT_GCC=g++
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/11/lto-wrapper
+Target: arm-linux-gnueabihf
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.4.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c,ada,c++,go,d,fortran,objc,obj-c++,m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=arm-linux-gnueabihf- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-libitm --disable-libquadmath --disable-libquadmath-support --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-sjlj-exceptions --with-arch=armv7-a+fp --with-float=hard --with-mode=thumb --disable-werror --enable-checking=release --build=arm-linux-gnueabihf --host=arm-linux-gnueabihf --target=arm-linux-gnueabihf
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04)
+COLLECT_GCC_OPTIONS='-v' '-o' 'returnFromMain' '-shared-libgcc'  '-mfloat-abi=hard' '-mtls-dialect=gnu' '-mthumb' '-mlibarch=armv7-a+fp' '-march=armv7-a+fp'
+ /usr/lib/gcc/arm-linux-gnueabihf/11/cc1plus -quiet -v -imultilib . -imultiarch arm-linux-gnueabihf -D_GNU_SOURCE returnFromMain.cpp -quiet -dumpbase returnFromMain.cpp -dumpbase-ext .cpp -mfloat-abi=hard -mtls-dialect=gnu -mthumb -mlibarch=armv7-a+fp -march=armv7-a+fp -version -fstack-protector-strong -Wformat -Wformat-security -o /tmp/ccXAe4yz.s
+GNU C++17 (Ubuntu 11.4.0-1ubuntu1~22.04) version 11.4.0 (arm-linux-gnueabihf)
+        compiled by GNU C version 11.4.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/usr/include/arm-linux-gnueabihf/c++/11"
+ignoring nonexistent directory "/usr/local/include/arm-linux-gnueabihf"
+ignoring nonexistent directory "/usr/lib/gcc/arm-linux-gnueabihf/11/include-fixed"
+ignoring nonexistent directory "/usr/lib/gcc/arm-linux-gnueabihf/11/../../../../arm-linux-gnueabihf/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/include/c++/11
+ /usr/include/arm-linux-gnueabihf/c++/11
+ /usr/include/c++/11/backward
+ /usr/lib/gcc/arm-linux-gnueabihf/11/include
+ /usr/local/include
+ /usr/include/arm-linux-gnueabihf
+ /usr/include
+End of search list.
+GNU C++17 (Ubuntu 11.4.0-1ubuntu1~22.04) version 11.4.0 (arm-linux-gnueabihf)
+        compiled by GNU C version 11.4.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: e0bd399c52de603d234e8bfb5e83bbe1
+COLLECT_GCC_OPTIONS='-v' '-o' 'returnFromMain' '-shared-libgcc'  '-mfloat-abi=hard' '-mtls-dialect=gnu' '-mthumb' '-mlibarch=armv7-a+fp' '-march=armv7-a+fp'
+ as -v -march=armv7-a -mfloat-abi=hard -meabi=5 -o /tmp/ccyoT1n7.o /tmp/ccXAe4yz.s
+GNU assembler version 2.38 (arm-linux-gnueabihf) using BFD version (GNU Binutils for Ubuntu) 2.38
+COMPILER_PATH=/usr/lib/gcc/arm-linux-gnueabihf/11/:/usr/lib/gcc/arm-linux-gnueabihf/11/:/usr/lib/gcc/arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/11/:/usr/lib/gcc/arm-linux-gnueabihf/
+LIBRARY_PATH=/usr/lib/gcc/arm-linux-gnueabihf/11/:/usr/lib/gcc/arm-linux-gnueabihf/11/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/11/../../../:/lib/arm-linux-gnueabihf/:/lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'returnFromMain' '-shared-libgcc'  '-mfloat-abi=hard' '-mtls-dialect=gnu' '-mthumb' '-mlibarch=armv7-a+fp' '-march=armv7-a+fp' '-dumpdir' 'returnFromMain.'
+ /usr/lib/gcc/arm-linux-gnueabihf/11/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccOFvGcN.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -pie -z now -z relro -o returnFromMain /usr/lib/gcc/arm-linux-gnueabihf/11/../../../arm-linux-gnueabihf/Scrt1.o /usr/lib/gcc/arm-linux-gnueabihf/11/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/11/crtbeginS.o -L/usr/lib/gcc/arm-linux-gnueabihf/11 -L/usr/lib/gcc/arm-linux-gnueabihf/11/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/11/../../.. -L/lib/arm-linux-gnueabihf -L/usr/lib/arm-linux-gnueabihf /tmp/ccyoT1n7.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/arm-linux-gnueabihf/11/crtendS.o /usr/lib/gcc/arm-linux-gnueabihf/11/../../../arm-linux-gnueabihf/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'returnFromMain' '-shared-libgcc'  '-mfloat-abi=hard' '-mtls-dialect=gnu' '-mthumb' '-mlibarch=armv7-a+fp' '-march=armv7-a+fp' '-dumpdir' 'returnFromMain.'
