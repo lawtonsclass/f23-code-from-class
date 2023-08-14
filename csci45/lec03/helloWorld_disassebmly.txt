@@ -1,0 +1,16 @@
+
+helloWorld:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00010074 <_start>:
+   10074:	e3a07004 	mov	r7, #4
+   10078:	e3a00001 	mov	r0, #1
+   1007c:	e59f1010 	ldr	r1, [pc, #16]	; 10094 <_start+0x20>
+   10080:	e3a0200e 	mov	r2, #14
+   10084:	ef000000 	svc	0x00000000
+   10088:	e3a00000 	mov	r0, #0
+   1008c:	e3a07001 	mov	r7, #1
+   10090:	ef000000 	svc	0x00000000
+   10094:	00020098 	.word	0x00020098
