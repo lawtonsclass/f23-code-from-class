@@ -11,13 +11,24 @@ void assertTrue(bool b, string description) {
   }
 }
 
-int main() {
+void test_counter() {
   init_counter(); 
   inc();
   inc();
   inc();
   dec();
-  cout << get_count() << endl;
+  assertTrue(get_count() == 2, "counter test");
+}
+
+int main() {
+  test_counter();
+
+  // init_counter(); 
+  // inc();
+  // inc();
+  // inc();
+  // dec();
+  // cout << get_count() << endl;
 
   return 0;
 }
