@@ -25,3 +25,32 @@ turtle.forward(100)
 turtle.left(90)
 
 turtle.forward(100)
+
+# let's draw a second square!
+
+turtle.setheading(0)
+
+turtle.up() # pick your tail up
+turtle.forward(150)
+turtle.down() # put your tail down
+
+turtle.forward(25)
+turtle.left(90)
+turtle.forward(25)
+turtle.left(90)
+turtle.forward(25)
+turtle.left(90)
+turtle.forward(25)
+
+
+
+
+
+
+
+
+
+
+
+
+
