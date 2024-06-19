@@ -1,27 +1,31 @@
-.global main			     @ no more _start
-.type main, %function  @ main is a function (assembler)
-.func main			       @ main is a function (debugger)
-main:                  @ main starts here
-  // lr holds the to haddr to return to
-  push {r4-r11, lr}
+.global main			     // no more _start
+.type main, %function  // main is a function (assembler)
+main:                  // main starts here
+  // lr (x30) holds the addr for main to return to; we need to save it
+  // if we want to call other functions
+  sub sp, sp, #16 // make room on the stack for 16 bytes (always must be a multiple of 16!!!)
+  // now there's room at [sp] and [sp, #8]--we can put lr at either spot
+  str lr, [sp]
 
-  // get the current pid using syscall #20
-  mov r7, #20
-  swi 0
-  // now the pid is in r0
+  // get the current pid using syscall #172
+  mov x8, #172
+  svc #0
+  // now the pid is in x0
 
   // let's print the pid
   // printf(&printint, pid_num)
-  mov r1, r0
-  ldr r0, =printint
+  mov x1, x0
+  ldr x0, =printint
   // call printf
   bl printf
 
   // return 0
-  mov r0, #0
+  mov w0, #0
 
   // return from main
-  pop {r4-r11, pc} // takes the old lr that we save, and it puts it into pc
+  ldr lr, [sp] // restore lr
+  add sp, sp, #16 // reset the stack
+  ret // jumps to the addr stored in lr
 
 .data
 printint: .asciz "%u\n" // makes a C-string for us!

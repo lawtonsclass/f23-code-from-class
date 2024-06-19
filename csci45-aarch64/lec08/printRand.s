@@ -1,34 +1,42 @@
 .global main
 .type main, %function
-.func main
 main:
-  push {r4-r11, lr}
+  sub sp, sp, #16
+  str lr, [sp]
+  str x19, [sp, #8]
 
   // srand(time(0))
-  mov r0, #0
+  mov x0, #0
   bl time
   bl srand
 
   // print 50 random #s
-  mov r4, #0
+  mov x19, #0 
+  // needs to go in a saved register because the functions that we
+  // call can clobber x0-x18. We have to save and restore the original
+  // x19!!!
 loop:
-  cmp r4, #50
-  bge done
+  cmp x19, #50
+  b.ge done
 
   // call rand() and print the #
   bl rand
+  // rand returns an int (so w0)
 
   // printf("%d\n", rand_result)
-  mov r1, r0
-  ldr r0, =fmt
+  mov w1, w0
+  ldr x0, =fmt
   bl printf
 
-  add r4, r4, #1
-  bal loop
+  add x19, x19, #1
+  b.al loop
 
 done:
-  mov r0, #0
-  pop {r4-r11, pc}
+  mov w0, #0
+  ldr lr, [sp]
+  ldr x19, [sp, #8]
+  add sp, sp, #16
+  ret
 
 .data
 fmt: .asciz "%d\n"

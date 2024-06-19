@@ -3,8 +3,8 @@
 
 int main() {
   struct sysinfo test;
-  printf("%d\n", sizeof(test));
-  printf("%d\n", sizeof(test.uptime));
+  printf("%ld\n", sizeof(test));
+  printf("%ld\n", sizeof(test.uptime));
 
   unsigned int totalram_addr = &test.totalram;
   unsigned int starting_addr = &test;
