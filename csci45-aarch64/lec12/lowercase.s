@@ -1,18 +1,16 @@
 .global main
 .type main, %function
-.func main
 main:
-  push {r4-r11, lr}
-
-  mov r4, #0 // start count at 0
+  sub sp, sp, #16
+  str lr, [sp]
 
   // repeatedly call getchar until we see EOF
 loop:
   bl getchar
-  // r0 holds the char the user typed
+  // w0 holds the char the user typed
   // stop counting if it was EOF (-1)
-  cmp r0, #-1
-  beq done
+  cmp w0, #-1
+  b.eq done
 
   // lowercase the char we got
   bl tolower
@@ -20,12 +18,14 @@ loop:
   bl putchar
 
   // continue looping
-  bal loop
+  b.al loop
 
 done:
 
-  mov r0, #0
-  pop {r4-r11, pc}
+  mov w0, #0
+  ldr lr, [sp]
+  add sp, sp, #16
+  ret
 
 .data
 fmt: .asciz "Number of *s: %d\n"

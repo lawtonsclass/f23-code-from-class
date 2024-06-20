@@ -1,32 +1,36 @@
 .global convert_to_all_caps
 .type convert_to_all_caps, %function
-.func convert_to_all_caps
 convert_to_all_caps:
   // void convert_to_all_caps(char* str);
-  // str is in r0
+  // str is in x0
 
-  push {r4-r10, lr} // stack needs to be at a multiple of 8 bytes to make futher function calls
+  sub sp, sp, #16
+  str lr, [sp]
+  str x19, [sp, #8]
 
-  mov r4, r0
+  mov x19, x0
 
-  // while (*r4 != '\0')
+  // while (*x19 != '\0')
 loop:
-  ldrb r1, [r4] 
-  cmp r1, #'\0'
-  beq done
+  ldrb w1, [x19] 
+  cmp w1, #0
+  b.eq done
 
-  // convert r1 to uppercase
+  // convert w1 to uppercase
   // toupper(char)
-  mov r0, r1
+  mov w0, w1
   bl toupper
 
-  // put that character back at *r4
-  strb r0, [r4]
+  // put that character back at *x19
+  strb w0, [x19]
 
-  // advance r4 to point to the next char
-  add r4, r4, #1
+  // advance x19 to point to the next char
+  add x19, x19, #1
 
-  bal loop
+  b.al loop
 
 done:
-  pop {r4-r10, pc}
+  ldr lr, [sp]
+  ldr x19, [sp, #8]
+  add sp, sp, #16
+  ret

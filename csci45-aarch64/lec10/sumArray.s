@@ -1,32 +1,31 @@
 .global sumArray
 .type sumArray, %function
-.func sumArray
 sumArray:
   // int sumArray(int arr[], int size); 
-  // arr is in r0
-  // size is in r1
+  // arr is in x0
+  // size is in w1
 
-  mov r2, #0 // holds the sum
+  mov w2, #0 // holds the sum
 
   // loop while size > 0
 loop:
-  cmp r1, #0
-  ble done
+  cmp w1, #0
+  b.le done
 
   // body of the loop
   // add the current elem into sum
-  ldr r3, [r0]
-  add r2, r2, r3
+  ldr w3, [x0]
+  add w2, w2, w3
 
   // advance pointer, decrement size
-  add r0, r0, #4
-  sub r1, r1, #1
-  bal loop
+  add x0, x0, #4
+  sub w1, w1, #1
+  b.al loop
 
 done:
 
   // return the sum 
-  mov r0, r2
+  mov w0, w2
 
   // return to lr
-  mov pc, lr
+  ret

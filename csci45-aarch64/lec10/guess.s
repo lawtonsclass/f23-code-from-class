@@ -1,11 +1,13 @@
 .global guessTheNumberGame
 .type guessTheNumberGame, %function
-.func guessTheNumberGame
 guessTheNumberGame:
   // void guessTheNumberGame(int up_to);
-  // up_to is in r0
+  // up_to is in w0
 
-  push {r4-r11, lr}
+  sub sp, sp, #32
+  str lr, [sp]
+  str x19, [sp, #8]
+  str x20, [sp, #16]
 
   /*
   void guessTheNumberGame(int up_to) {
@@ -28,52 +30,56 @@ guessTheNumberGame:
   }
   */
 
-  // up_to is already in r0
+  // up_to is already in x0
   bl getRandomNumberFrom1To
-  mov r4, r0 // save n in a saved register
+  mov w19, w0 // save n in a saved register
 
-  mov r5, #-1
+  mov w20, #-1
 loop:
-  cmp r5, r4
-  beq done
+  cmp w20, w19
+  b.eq done
   
   // loop body
-  ldr r0, =enterguess
+  ldr x0, =enterguess
   bl printf
 
-  ldr r0, =scanffmt
-  ldr r1, =theguess
+  ldr x0, =scanffmt
+  ldr x1, =theguess
   bl scanf
-  // mov theguess into r5
-  ldr r5, =theguess
-  ldr r5, [r5]
+  // mov theguess into x20
+  ldr x20, =theguess // 64-bit ptr
+  ldr w20, [x20] // 32-bit value
 
   // if/else if/else
-  cmp r5, r4
+  cmp w20, w19
   bge elseif
 
   // print too low
-  ldr r0, =toolow
+  ldr x0, =toolow
   bl printf
-  bal endif
+  b.al endif
 elseif:
-  cmp r5, r4 
+  cmp w20, w19 
   ble else 
 
   // print too high
-  ldr r0, =toohigh
+  ldr x0, =toohigh
   bl printf
-  bal endif
+  b.al endif
 else:
   // print you got it
-  ldr r0, =yougotit
+  ldr x0, =yougotit
   bl printf
 endif: // the end of the if/else if/else
 
-  bal loop
+  b.al loop
 
 done:
-  pop {r4-r11, pc}
+  ldr lr, [sp]
+  ldr x19, [sp, #8]
+  ldr x20, [sp, #16]
+  add sp, sp, #32
+  ret
 
 .data
 enterguess: .asciz "Enter your guess: "
