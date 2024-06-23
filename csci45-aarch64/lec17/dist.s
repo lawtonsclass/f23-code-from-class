@@ -1,50 +1,51 @@
 .global main
 .type main, %function
-.func main
 main:
-  push {r4-r10, lr} // can't do r4-r11 because I need the stack aligned to an 8-byte offset
+  sub sp, sp, #16
+  str lr, [sp]
 
-  vmov.f32 s0, #3.5 // x1
-  vmov.f32 s1, #2.5 // y1
-  vmov.f32 s2, #1.5 // x2
-  vmov.f32 s3, #-1.0 // y2
+  fmov s0, #3.5 // x1
+  fmov s1, #2.5 // y1
+  fmov s2, #1.5 // x2
+  fmov s3, #-1.0 // y2
 
   // let's calculate the distance and put it into s4
-  vsub.f32 s0, s2, s0 // x2 - x1
-  vsub.f32 s1, s3, s1 // x2 - x1
-  vabs.f32 s0, s0 // |x2 - x1|
-  vabs.f32 s1, s1 // |y2 - y1|
-  vmul.f32 s0, s0, s0 // |x2 - x1|^2
-  vmul.f32 s1, s1, s1 // |y2 - y1|^2
-  vadd.f32 s0, s0, s1 // add the squared differences
-  vsqrt.f32 s4, s0
+  fsub s0, s2, s0 // x2 - x1
+  fsub s1, s3, s1 // x2 - x1
+  fabs s0, s0 // |x2 - x1|
+  fabs s1, s1 // |y2 - y1|
+  fmul s0, s0, s0 // |x2 - x1|^2
+  fmul s1, s1, s1 // |y2 - y1|^2
+  fadd s0, s0, s1 // add the squared differences
+  fsqrt s4, s0
 
-  vcvt.f64.f32 d0, s4
-  // the format string is the first arg to printf, so it goes in r0 as usual
-  ldr r0, =fmt
-  // printf expects a second argument (if it's 8 bytes) r2-r3
-  vmov r2, r3, d0
-  // remember to align the stack to a multiple of 8 bytes!!!
+  // printf expects the first floating point argument argument in d0
+  fcvt d0, s4
+  fmov d8, d0 // printf will clobber d0, so save it
+  // d8-d31 are saved registers
+  // the format string is the first arg to printf, so it goes in x0 as usual
+  ldr x0, =fmt
   bl printf
 
   // using d0, print "yes" or "no" if the value stored is <= 1.0
-  vmov.f64 d1, #1.0
-  vcmp.f64 d0, d1 // compare dist with 1.0
-  vmrs APSR_nzcv, FPSCR // bring over the flags from the FPU!
-  ble it_was_le
+  fmov d1, #1.0
+  fcmp d8, d1 // compare (saved) dist with 1.0
+  b.le it_was_le
 it_was_gt:
   // print it was > 1.0 
-  ldr r0, =gt
+  ldr x0, =gt
   bl printf
-  bal done
+  b.al done
 it_was_le:
-  ldr r0, =le
+  ldr x0, =le
   bl printf
 done:
 
   // return 0
-  mov r0, #0
-  pop {r4-r10, pc}
+  mov w0, #0
+  ldr lr, [sp]
+  add sp, sp, #16
+  ret
 
 .data
 fmt: .asciz "%f\n"

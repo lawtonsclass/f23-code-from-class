@@ -1,40 +1,41 @@
-.global swapColorsNEON
-.func swapColorsNEON
-.type swapColorsNEON, %function
-swapColorsNEON:
-  push {r4-r11, lr}
+.global swapColorsSIMD
+.type swapColorsSIMD, %function
+swapColorsSIMD:
+  sub sp, sp, #16
+  str lr, [sp]
   
   // FIXME: implement the void swapColorsNEON(char* pixelsStart, int numPixels)
   // function to swap the colors of numPixels pixels starting at pixelsStart. 
-  // numPixels is guaranteed to be a multiple of 8 so that you can
-  // use 64-bit NEON registers.
+  // numPixels is guaranteed to be a multiple of 16 so that you can
+  // use 128-bit SIMD registers.
 
 loop:
-  cmp r1, #0 // (we'll keep subtracting from numPixels (r1) every time we process more)
+  cmp w1, #0 // (we'll keep subtracting from numPixels (w1) every time we process more)
   ble done
 
   // read a chunk of pixels
-  vld3.8 {d0, d1, d2}, [r0]
+  ld3 {v0.16B, v1.16B, v2.16B}, [x0]
 
   // process them
   // swap red and green
-  vmov.8 d3, d0
-  vmov.8 d0, d1
-  vmov.8 d1, d3
+  mov v3.16B, v1.16B
+  mov v1.16B, v2.16B
+  mov v2.16B, v3.16B
 
   // write them back to memory
-  vst3.8 {d0, d1, d2}, [r0] // (put an ! at the end to automatically advance r0)
+  st3 {v0.16B, v1.16B, v2.16B}, [x0]
 
-  // advance r0
-    // d0, d1, & d2 are all 64 bits (8 bytes)
-    // so we're reading 24 bytes total
-    // the next address we want to read from is 24 bytes from now
-  add r0, r0, #24
+  // advance x0
+    // v0, v1, & v2 are all 128 bits (16 bytes)
+    // so we're reading 48 bytes total
+    // the next address we want to read from is 48 bytes from now
+  add x0, x0, #48
 
-  // we just processed 8 pixels
-  sub r1, r1, #8
-  bal loop
+  // we just processed 16 pixels
+  sub w1, w1, #16
+  b.al loop
 done:
 
-  pop {r4-r11, pc}
-
+  ldr lr, [sp]
+  add sp, sp, #16
+  ret

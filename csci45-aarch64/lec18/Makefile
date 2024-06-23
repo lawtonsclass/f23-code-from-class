@@ -1,20 +1,20 @@
 # the programs we want to use to compile our stuff
 CXX=g++
-CXXFLAGS=-g -mfpu=neon -march=armv8-a
+CXXFLAGS=-g
 CC=gcc
-CCFLAGS=-g -mfpu=neon -march=armv8-a
+CCFLAGS=-g
 AS=as
-ASFLAGS=-g -mfpu=neon -march=armv8-a
+ASFLAGS=-g
 LD=ld
 LDFLAGS=
 
 # if this computer isn't running an ARM32 processor, use QEMU
 UNAME=$(shell uname -m)
-ifneq ($(UNAME), armv7l)
-	CXX=arm-linux-gnueabihf-g++
-	CC=arm-linux-gnueabihf-gcc
-	AS=arm-linux-gnueabihf-as
-	LD=arm-linux-gnueabihf-ld
+ifneq ($(UNAME), aarch64)
+	CXX=g++-aarch64-linux-gnu
+	CC=gcc-aarch64-linux-gnu
+	AS=as-aarch64-linux-gnu
+	LD=ld-aarch64-linux-gnu
 	CXXFLAGS+= -static
 	CCFLAGS+= -static
 	LDFLAGS+= -static

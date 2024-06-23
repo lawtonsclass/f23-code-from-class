@@ -3,8 +3,8 @@
 #include <string>
 using namespace std;
 
-extern "C" void swapColorsNEON(char* pixelsStart, int numPixels);
-extern "C" void bwNEON(char* pixelsStart, int numPixels);
+extern "C" void swapColorsSIMD(char* pixelsStart, int numPixels);
+extern "C" void bwSIMD(char* pixelsStart, int numPixels);
 
 int main(int argc, char* argv[]) {
   if (argc != 4 || (string(argv[1]) != "swap" && string(argv[1]) != "bw")) {
@@ -19,8 +19,8 @@ int main(int argc, char* argv[]) {
   inputImage.seekg (0, inputImage.end);
   int length = inputImage.tellg();
   inputImage.seekg (0, inputImage.beg);
-  // allocate memory (with extra length so NEON doesn't segfault:
-  char* bmpImage = new char[length + 7*3];
+  // allocate memory (with extra length so SIMD doesn't segfault:
+  char* bmpImage = new char[length + 15*3];
   // read data into buffer
   inputImage.read (bmpImage,length);
   inputImage.close();
@@ -41,14 +41,14 @@ int main(int argc, char* argv[]) {
   while ((rowSize & 0b11) != 0) rowSize++;
 
   // NEON-specific stuff:
-  //   We want to use 3 64-bit NEON registers to hold our R, G, and B
-  //   channels, and that means together they will hold 64/8 = 8
-  //   pixels. We can process 8 pixels at a time! But if we have a
-  //   width that isn't an exact multiple of 8, we have to round up.
-  int numberOfPixelsPerRowRoundedDownToTheNearestMultipleOf8 = width & (~0x7);
-  int numberOfPixelsPerRowLeftOver = width & (0x7);
-  int numberOfPixelsToProcess = numberOfPixelsPerRowRoundedDownToTheNearestMultipleOf8;
-  if (numberOfPixelsPerRowLeftOver > 0) numberOfPixelsToProcess += 8;
+  //   We want to use 3 128-bit SIMD registers to hold our R, G, and B
+  //   channels, and that means together they will hold 128/8 = 16
+  //   pixels. We can process 16 pixels at a time! But if we have a
+  //   width that isn't an exact multiple of 16, we have to round up.
+  int numberOfPixelsPerRowRoundedDownToTheNearestMultipleOf16 = width & (~0xF);
+  int numberOfPixelsPerRowLeftOver = width & (0xF);
+  int numberOfPixelsToProcess = numberOfPixelsPerRowRoundedDownToTheNearestMultipleOf16;
+  if (numberOfPixelsPerRowLeftOver > 0) numberOfPixelsToProcess += 16;
 
   // use your filter
   for (int row = 1; row <= height; row++) {
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
     char* rowEnd = rowStart + width*3;
     char* rowEndRoundedUpToTheNearestMultipleOf8Pixels = rowStart + numberOfPixelsToProcess*3;
 
-    char leftOverMemoryToSave[7*3];
+    char leftOverMemoryToSave[15*3];
     if (numberOfPixelsPerRowLeftOver > 0) {
       // save the memory that shouldn't have been updated
       for (int i = 0; i < numberOfPixelsPerRowLeftOver * 3; i++) {
@@ -65,9 +65,9 @@ int main(int argc, char* argv[]) {
     }
 
     if (string(argv[1]) == "swap")
-      swapColorsNEON(rowStart, numberOfPixelsToProcess);
+      swapColorsSIMD(rowStart, numberOfPixelsToProcess);
     else
-      bwNEON(rowStart, numberOfPixelsToProcess);
+      bwSIMD(rowStart, numberOfPixelsToProcess);
 
     if (numberOfPixelsPerRowLeftOver > 0) {
       // restore the memory that shouldn't have been updated
