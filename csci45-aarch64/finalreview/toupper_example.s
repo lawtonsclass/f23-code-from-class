@@ -1,31 +1,34 @@
 .global toupper_asm
 .type toupper_asm, %function
-.func toupper_asm
 toupper_asm: // char toupper_asm(char c);
-  push {r4-r11, lr}
+  sub sp, sp, #16
+  str lr, [sp]
 
-  cmp r0, #97
-  blt donttouchthischar
-  cmp r0, #122
-  bgt donttouchthischar
+  cmp w0, #97
+  b.lt donttouchthischar
+  cmp w0, #122
+  b.gt donttouchthischar
   // if we're still here, we're within the valid range!
-  sub r0, r0, #32
+  sub w0, w0, #32
 
 donttouchthischar:
-  pop {r4-r11, pc}
-.endfunc
+  ldr lr, [sp]
+  add sp, sp, #16
+  ret
 
 .global main
 .type main, %function
-.func main
 main:
-  push {r4-r11, lr}
+  sub sp, sp, #16
+  str lr, [sp]
 
   bl getchar 
   bl toupper_asm
   bl putchar
-  mov r0, #'\n'
+  mov w0, #'\n'
   bl putchar
 
-  mov r0, #0
-  pop {r4-r11, pc}
+  mov w0, #0
+  ldr lr, [sp]
+  add sp, sp, #16
+  ret

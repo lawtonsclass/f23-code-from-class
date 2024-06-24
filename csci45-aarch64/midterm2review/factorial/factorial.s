@@ -1,27 +1,31 @@
 .global factorial
 .type factorial, %function
-.func factorial
 factorial: // int factorial(int n);
-  push {r4-r11, lr} 
+  sub sp, sp, #16
+  str lr, [sp]
+  str x19, [sp, #8]
 
-  // n is in r0
+  // n is in w0
 
-  cmp r0, #0
-  beq baseCase
-  bne recursiveCase
+  cmp w0, #0
+  b.eq baseCase
+  b.ne recursiveCase
 
 baseCase:
-  mov r0, #1
-  bal done
+  mov w0, #1
+  b.al done
 
 recursiveCase:
   // n * factorial(n-1) 
-  mov r4, r0
-  sub r0, r0, #1 // r0 holds n-1 now
-  bl factorial // now r0 holds factorial(n-1)
-  mul r0, r0, r4
+  mov w19, w0
+  sub w0, w0, #1 // w0 holds n-1 now
+  bl factorial // now w0 holds factorial(n-1)
+  mul w0, w0, w19
 
 done:
-  pop {r4-r11, pc}
+  ldr lr, [sp]
+  ldr x19, [sp, #8]
+  add sp, sp, #16
+  ret
 
 .data

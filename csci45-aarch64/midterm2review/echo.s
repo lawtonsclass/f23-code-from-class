@@ -1,24 +1,26 @@
 .global main
 .type main, %function
-.func main
 main:
-  push {r4-r11, lr}
+  sub sp, sp, #16
+  str lr, [sp]
 
 loop:
   // use getchar/putchar to echo stdin back to stdout until EOF
   bl getchar
-  // r0 now holds the next char; check if it's EOF
-  cmp r0, #-1
-  beq done
+  // w0 now holds the next char; check if it's EOF
+  cmp w0, #-1
+  b.eq done
 
   // if we're not done, put the char back onto stdout
-  // the correct arg is already in r0!
+  // the correct arg is already in w0!
   bl putchar
   
   // and then repeat
-  bal loop
+  b.al loop
 
 
 done:
-  mov r0, #0
-  pop {r4-r11, pc}
+  mov w0, #0
+  ldr lr, [sp]
+  add sp, sp, #16
+  ret

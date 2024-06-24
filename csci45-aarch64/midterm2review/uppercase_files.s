@@ -2,39 +2,44 @@
 .type main, %function
 .func main
 main:
-  push {r4-r11, lr}
+  sub sp, sp, #16
+  str lr, [sp]
+  str x19, [sp, #8]
 
   // open the file with fopen
-  ldr r0, =filename
-  ldr r1, =mode
+  ldr x0, =filename
+  ldr x1, =mode
   bl fopen // fopen returns a FILE*
-  mov r4, r0 // save the file in r4
+  mov x19, x0 // save the file in x19 
 
 loop:
   // use fgetc to read one char of the file
-  mov r0, r4
+  mov x0, x19
   bl fgetc
-  // now we have the next char in r0
+  // now we have the next char in w0
 
   // watch out for EOF
-  cmp r0, #-1
-  beq done
+  cmp w0, #-1
+  b.eq done
 
   // convert the char to uppercase and print it out
-  // the character is already in r0!
+  // the character is already in w0!
   bl toupper
   bl putchar
 
   // repeat
-  bal loop
+  b.al loop
 
 done:
   // close the file with fclose
-  mov r0, r4
+  mov x0, x19
   bl fclose
 
-  mov r0, #0
-  pop {r4-r11, pc}
+  mov w0, #0
+  ldr lr, [sp]
+  ldr x19, [sp, #8]
+  add sp, sp, #16
+  ret
 
 .data
 filename: .asciz "sample_file.txt"
