@@ -8,7 +8,7 @@ ASFLAGS=-g
 LD=ld
 LDFLAGS=
 
-# if this computer isn't running an ARM32 processor, use QEMU
+# if this computer isn't running an ARM64 processor, use QEMU
 UNAME=$(shell uname -m)
 ifneq ($(UNAME), aarch64)
 	CXX=g++-aarch64-linux-gnu
