@@ -11,10 +11,10 @@ LDFLAGS=
 # if this computer isn't running an ARM64 processor, use QEMU
 UNAME=$(shell uname -m)
 ifneq ($(UNAME), aarch64)
-	CXX=g++-aarch64-linux-gnu
-	CC=gcc-aarch64-linux-gnu
-	AS=as-aarch64-linux-gnu
-	LD=ld-aarch64-linux-gnu
+	CXX=aarch64-linux-gnu-g++
+	CC=aarch64-linux-gnu-gcc
+	AS=aarch64-linux-gnu-as
+	LD=aarch64-linux-gnu-ld
 	CXXFLAGS+= -static
 	CCFLAGS+= -static
 	LDFLAGS+= -static
