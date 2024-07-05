@@ -1,6 +1,5 @@
 .global main
 .type main, %function
-.func main
 main:
   sub sp, sp, #16
   str lr, [sp]
