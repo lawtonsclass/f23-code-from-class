@@ -54,12 +54,12 @@ int main(int argc, char* argv[]) {
   for (int row = 1; row <= height; row++) {
     char* rowStart = bmpImage + imageStart + (row - 1)*rowSize;
     char* rowEnd = rowStart + width*3;
-    char* rowEndRoundedUpToTheNearestMultipleOf8Pixels = rowStart + numberOfPixelsToProcess*3;
+    char* rowEndRoundedUpToTheNearestMultipleOf16Pixels = rowStart + numberOfPixelsToProcess*3;
 
     char leftOverMemoryToSave[15*3];
     if (numberOfPixelsPerRowLeftOver > 0) {
       // save the memory that shouldn't have been updated
-      for (int i = 0; i < numberOfPixelsPerRowLeftOver * 3; i++) {
+      for (int i = 0; i < 15 * 3; i++) {
         leftOverMemoryToSave[i] = rowEnd[i];
       }
     }
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
 
     if (numberOfPixelsPerRowLeftOver > 0) {
       // restore the memory that shouldn't have been updated
-      for (int i = 0; i < numberOfPixelsPerRowLeftOver * 3; i++) {
+      for (int i = 0; i < 15 * 3; i++) {
         rowEnd[i] = leftOverMemoryToSave[i];
       }
     }
