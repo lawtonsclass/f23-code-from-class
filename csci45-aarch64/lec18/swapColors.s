@@ -11,7 +11,7 @@ swapColorsSIMD:
 
 loop:
   cmp w1, #0 // (we'll keep subtracting from numPixels (w1) every time we process more)
-  ble done
+  b.le done
 
   // read a chunk of pixels
   ld3 {v0.16B, v1.16B, v2.16B}, [x0]
