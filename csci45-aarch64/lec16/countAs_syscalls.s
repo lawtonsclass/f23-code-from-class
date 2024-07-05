@@ -8,12 +8,12 @@ main:
 
   // open file.txt for reading
   mov x8, #56 // the # of the openat syscall
-  mov x0, #-100 // -100 stands for AT_FDCWD (open relative to current working directory)
+  mov w0, #-100 // -100 stands for AT_FDCWD (open relative to current working directory)
   ldr x1, =filename
-  mov x2, #0 // 0 is for read-only
+  mov w2, #0 // 0 is for read-only
   svc #0
-  // x0 now holds the file descriptor for file.txt
-  mov x19, x0
+  // w0 now holds the file descriptor for file.txt
+  mov w19, w0
 
   // read the entire file, keeping track of how many 'a' chars we see
   mov w20, #0 // hold the count in w20
@@ -21,7 +21,7 @@ main:
 loop:
   // read one char at at time into nextchar
   mov x8, #63
-  mov x0, x19
+  mov w0, w19
   ldr x1, =nextchar
   mov x2, #1
   svc #0 
@@ -47,7 +47,7 @@ donereading:
 
   // close the file
   mov x8, #57
-  mov x0, x19
+  mov w0, w19
   svc #0
 
   // output # of 'a's seen

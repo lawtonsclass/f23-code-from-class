@@ -6,6 +6,6 @@ Disassembly of section .text:
 
 0000000000000000 <_start>:
    0:	91000000 	add	x0, x0, #0x0
-   4:	d28006e0 	mov	x0, #0x37                  	// #55
+   4:	528006e0 	mov	w0, #0x37                  	// #55
    8:	d2800ba8 	mov	x8, #0x5d                  	// #93
    c:	d4000001 	svc	#0x0
