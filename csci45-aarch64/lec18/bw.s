@@ -40,7 +40,7 @@ loop:
   cmge v0.8H, v3.8H, v4.8H // compare r+g+b with the threshold value
 
   // shink v0 down into 8 bits again
-  xtn v3.8B, v0.8H // really we just shrunk v0 down into *d3*
+  xtn v3.8B, v0.8H // really we just shrunk v0 down into *the right half* of v3
 
   mov v0.8B, v3.8B // right half of v0 holds red
   mov v1.8B, v0.8B // right half of v1 holds green
