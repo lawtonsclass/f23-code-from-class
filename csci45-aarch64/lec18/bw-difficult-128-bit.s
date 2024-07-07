@@ -32,10 +32,10 @@ loop:
   uxtl2 v8.8H, v2.16B
 
   add v3.8H, v3.8H, v5.8H
-  add v3.8H, v3.8H, v7.8H // v3 = left half r + g + b
+  add v3.8H, v3.8H, v7.8H // v3 = right half r + g + b
 
   add v4.8H, v4.8H, v6.8H
-  add v4.8H, v4.8H, v8.8H // v4 = right half r + g + b
+  add v4.8H, v4.8H, v8.8H // v4 = left half r + g + b
 
   // put 384 into v5 (copied into every 16-bit chunk)
   movi v5.8H, #0
@@ -44,8 +44,8 @@ loop:
   add v5.8H, v5.8H, v6.8H
   add v5.8H, v5.8H, v6.8H // now v5 holds 384
 
-  cmge v0.8H, v3.8H, v5.8H // compare left half r+g+b with the threshold value
-  cmge v1.8H, v4.8H, v5.8H // compare right half r+g+b with the threshold value
+  cmge v0.8H, v3.8H, v5.8H // compare right half r+g+b with the threshold value
+  cmge v1.8H, v4.8H, v5.8H // compare left half r+g+b with the threshold value
 
   // shink v0 & v1 down into 8 bits again
   xtn v2.8B, v0.8H
