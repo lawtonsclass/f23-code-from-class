@@ -1,0 +1,42 @@
+        -:    0:Source:fact-v1.cpp
+        -:    0:Graph:fact-v1.gcno
+        -:    0:Data:fact-v1.gcda
+        -:    0:Runs:1
+        -:    1:#include <iostream>
+        -:    2:#include <stdexcept>
+        -:    3:using namespace std;
+        -:    4:
+       12:    5:int fact(int n) {
+       12:    6:  if (n < 0) {
+    #####:    7:    throw runtime_error("negative factorials don't exist");
+        -:    8:  }
+        -:    9:
+       12:   10:  if (n == 0) {
+        -:   11:    // base case
+        4:   12:    return 1;
+        -:   13:  } else {
+        -:   14:    // recursive case
+        8:   15:    return n * fact(n-1);
+        -:   16:  }
+        -:   17:}
+        -:   18:
+        4:   19:void assertTrue(bool b, string description) {
+        4:   20:  if (b) {
+        4:   21:    cout << "PASSED: " << description << endl;
+        -:   22:  } else {
+    #####:   23:    cout << "FAILED: " << description << endl;
+        -:   24:  }
+        4:   25:}
+        -:   26:
+        1:   27:void testFact() {
+        2:   28:  assertTrue(fact(5) == 120, "5!");
+        2:   29:  assertTrue(fact(2) == 2, "2!");
+        2:   30:  assertTrue(fact(1) == 1, "1!");
+        2:   31:  assertTrue(fact(0) == 1, "0!");
+        1:   32:}
+        -:   33:
+        1:   34:int main() {
+        1:   35:  testFact();
+        -:   36:
+        1:   37:  return 0;
+        -:   38:}

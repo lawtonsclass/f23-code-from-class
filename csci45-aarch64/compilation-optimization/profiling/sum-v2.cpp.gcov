@@ -1,0 +1,34 @@
+        -:    0:Source:sum-v2.cpp
+        -:    0:Graph:sum-v2.gcno
+        -:    0:Data:sum-v2.gcda
+        -:    0:Runs:1
+        -:    1:#include <iostream>
+        -:    2:using namespace std;
+        -:    3:
+        1:    4:void fillArray(int* arr, int size) {
+100000008:    5:  for (int i = 0; i < size; i++) {
+100000007:    6:    arr[i] = i;
+        -:    7:  }
+        1:    8:}
+        -:    9:
+        1:   10:unsigned long sumArray(int* arr, int size) {
+        1:   11:  unsigned long res = 0;
+        -:   12:
+100000008:   13:  for (int i = 0; i < size; i++) {
+100000007:   14:    res += arr[i];
+        -:   15:  }
+        -:   16:
+        1:   17:  return res;
+        -:   18:}
+        -:   19:
+        1:   20:int main() {
+        1:   21:  int size = 100'000'007;
+       1*:   22:  int* arr = new int[size];
+        -:   23:
+        1:   24:  fillArray(arr, size);
+        1:   25:  unsigned long sum = sumArray(arr, size);
+        -:   26:
+        1:   27:  cout << "sum: " << sum << endl;
+        -:   28:
+        1:   29:  return 0;
+        -:   30:}
